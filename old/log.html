@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<meta charset='utf-8'>
+<title>aframe-xterm-component</title>
+<head>
+  <title>My A-Frame Scene</title>
+  <!-- <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script> -->
+  <script src="//aframe.io/releases/0.9.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-log-component/dist/aframe-log-component.min.js"></script>
+</head>
+<body>
+  <a-scene>
+    <!-- Or <a-log position="0 0 -4"></a-log>. -->
+    <a-entity log geometry="primitive: plane" material="color: #111" text="color: lightgreen" position="0 0 -4"></a-entity>
+  </a-scene>
+</body>
+  <script>
+    var i = 0;
+    setTimeout(function(){
+      i++;
+      AFRAME.log(`${i}arghargh${i}`)
+    }, 300);
+  </script>
+</html>

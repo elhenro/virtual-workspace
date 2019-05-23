@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<meta charset='utf-8'>
+<title>aframe-xterm-component</title>
+<link rel="stylesheet" href="//unpkg.com/xterm@3.12.0/dist/xterm.css" />
+<script src="//unpkg.com/xterm@3.12.0/dist/xterm.js"></script>
+<script src="//aframe.io/releases/0.9.0/aframe.min.js"></script>
+<script type="text/javascript" src="aframe-xterm-component.js"></script>
+<!-- <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script> -->
+
+<script src="https://unpkg.com/aframe-super-keyboard@1.0.0/dist/aframe-super-keyboard.min.js"></script>
+<script type="text/javascript">
+
+AFRAME.registerComponent('xterm-example', {
+  dependencies: ['xterm'],
+  init: function() {
+    // const message = 'enter vr & run the xterm.js server'
+    const message = ''
+    const xterm = this.el.components['xterm']
+    xterm.write(message)
+    const socket = new WebSocket('ws://192.168.2.102:8080/')
+    socket.onmessage = ({data}) => {
+      xterm.write(data)
+    }
+    socket.onclose = () => {
+      xterm.write('\r\nno connection.\r\n')
+    }
+    this.el.addEventListener('xterm-data', ({detail}) => {
+      socket.send(detail)
+    })
+  }
+})
+</script>
+<a-scene antialias="true" background="color: #101010">
+<!-- <a-scene antialias="true"> -->
+  <a-curvedimage
+    class="terminal"
+    xterm-example
+    theta-length="60"
+    radius="6"
+    height="4"
+    rotation="0 150 0"
+    position="0 2 -2"
+  ></a-curvedimage>
+
+  <!-- <a-entity oculus-touch-controls="hand: left"></a-entity> -->
+  <!-- <a-entity oculus-touch-controls="hand: right"></a-entity> -->
+    <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
+    <a-entity id="hand" laser-controls="hand: right"></a-entity>
+    <a-entity id="keyboard" super-keyboard="hand: #mouseCursor; imagePath:." position="0 1.076 -0.5" rotation="-30 0 0"></a-entity>
+
+
+<!--   <a-entity wasd-controls> -->
+    <!-- <a-entity -->
+      <!-- camera -->
+      <!-- look-controls -->
+      <!-- position="0 1.6 0" -->
+    <!-- ></a-entity> -->
+    <!-- <a-entity -->
+      <!-- cursor="rayOrigin: mouse" -->
+      <!-- raycaster="objects: .terminal" -->
+    <!-- ></a-entity> -->
+    <!-- <a-entity -->
+      <!-- hand-controls -->
+      <!-- laser-controls -->
+      <!-- raycaster="objects: .terminal" -->
+    <!-- ></a-entity> -->
+  <!-- </a-entity> -->
+
+  <!-- <a-entity environment="preset: tron"></a-entity> -->
+</a-scene>
+</html>

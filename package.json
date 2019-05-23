@@ -1,0 +1,21 @@
+{
+  "name": "virtual-workspace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "elhenro",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.0",
+    "express-ws": "^4.0.0",
+    "xterm": "^3.12.0"
+  },
+  "devDependencies": {
+    "node-pty": "^0.8.1",
+    "ws": "^6.2.1"
+  }
+}

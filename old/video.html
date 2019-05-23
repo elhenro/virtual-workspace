@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<meta charset='utf-8'>
+<title>aframe-xterm-component</title>
+<link rel="stylesheet" href="//unpkg.com/xterm@3.12.0/dist/xterm.css" />
+<script src="//unpkg.com/xterm@3.12.0/dist/xterm.js"></script>
+<script src="//aframe.io/releases/0.9.0/aframe.min.js"></script>
+<script type="text/javascript" src="aframe-xterm-component.js"></script>
+<script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+<script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+
+<script src="arrow-key-rotation.js"></script>
+<script src="play-on-window-click.js"></script>
+<script src="play-on-vrdisplayactivate-or-enter-vr.js"></script>
+<script src="hide-once-playing.js"></script>
+
+<script type="text/javascript">
+/*
+AFRAME.registerComponent('xterm-example', {
+  dependencies: ['xterm'],
+  init: function() {
+    const message = 'enter vr & run the xterm.js server'
+    const xterm = this.el.components['xterm']
+    xterm.write(message)
+    // const socket = new WebSocket('ws://10.51.5.102:8080/')
+    const socket = new WebSocket('ws://192.168.2.104:8080/')
+    socket.onmessage = ({data}) => {
+      xterm.write(data)
+    }
+    socket.onclose = () => {
+      xterm.write('\r\nno connection.\r\n')
+    }
+    this.el.addEventListener('xterm-data', ({detail}) => {
+      socket.send(detail)
+    })
+  }
+})
+*/
+</script>
+<a-scene antialias="true">
+  <a-curvedimage
+    class="terminal"
+    xterm-example
+    theta-length="60"
+    radius="6"
+    height="4"
+    rotation="0 150 0"
+    position="0 2 -2"
+  ></a-curvedimage>
+  <a-entity oculus-touch-controls="hand: left"></a-entity>
+  <a-entity oculus-touch-controls="hand: right"></a-entity>
+
+      <a-videosphere rotation="0 180 0" src="#video"
+                     play-on-window-click
+                     play-on-vrdisplayactivate-or-enter-vr>
+      </a-videosphere>
+
+      <a-camera user-height="0" wasd-controls-enabled="false" arrow-key-rotation>
+        <a-entity id="msg" position="0 -0.3 -1.5" text="align:center;
+                width:3;
+                wrapCount:100;
+                color:red;
+                value:Click window to make the video play, if needed."
+                hide-once-playing="#video">
+        </a-entity>
+      </a-camera>
+
+        <a-assets>
+        <video id="video" style="display:none"
+               autoplay loop crossorigin="anonymous" playsinline webkit-playsinline>
+          <source type="video/mp4"
+               src="https://ucarecdn.com/fadab25d-0b3a-45f7-8ef5-85318e92a261/" />
+        </video>
+      </a-assets>
+    </a-scene>
+</a-scene>
+</html>

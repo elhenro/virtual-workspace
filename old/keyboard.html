@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<meta charset='utf-8'>
+<title>aframe-keyboard</title>
+<!-- <script src="//aframe.io/releases/0.9.0/aframe.min.js"></script> -->
+<script src="//rawgit.com/aframevr/aframe/c4aa63e/dist/aframe-master.min.js"></script>
+<script src="//supermedium.com/aframe-super-keyboard/dist/aframe-super-keyboard.min.js"></script>
+
+<!-- <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script> -->
+<!-- <script src="https://unpkg.com/aframe-super-keyboard@1.0.0/dist/aframe-super-keyboard.min.js"></script> -->
+<script src="https://unpkg.com/aframe-environment-component@1.0.0/dist/aframe-environment-component.min.js"></script>
+
+<body>
+  <a-scene environment="preset: contact; skyColor: #112214; horizonColor: #478d54; ground: hills; groundTexture: checkerboard; groundColor: #4f3e4b; groundColor2: #4d3c47; dressing: none; grid: none">
+      <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
+
+      <a-entity id="hand" laser-controls="hand: right">
+        <a-sphere radius="0.03"></a-sphere>
+      </a-entity>
+    <a-entity id="keyboard" super-keyboard="hand: #mouseCursor; imagePath:/" position="0 1.076 -0.5" rotation="-30 0 0"></a-entity>
+</a-scene>
+</html>

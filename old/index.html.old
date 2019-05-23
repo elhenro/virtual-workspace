@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>aframe workshop</title>
+    <meta name="description" content="aframe-workshop">
+    <!-- <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script> -->
+    <script src="./aframe-master.js"></script>
+  </head>
+  <body>
+    <a-scene background="color: #ECECEC">
+      <!-- <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder> -->
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
+      <a-entity environment="preset: tron"></a-entity>
+    </a-scene>
+  </body>
+</html>
+

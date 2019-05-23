@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>vrterm.io</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui, viewport-fit=cover">
+    <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+    <link rel="stylesheet" href="//unpkg.com/xterm@3.12.0/dist/xterm.css" />
+    <script src="//unpkg.com/xterm@3.12.0/dist/xterm.js"></script>
+    <script type="text/javascript" src="aframe-xterm-component.js"></script>
+    <style>
+      body {
+        font-size: 50vw;
+        overflow: hidden;
+      }
+      html, body, canvas {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+      }
+    </style>
+<!-- <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script> -->
+<script src="https://supermedium.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+<script type="text/javascript">
+AFRAME.registerComponent('terminal', {
+  dependencies: ['xterm'],
+  init: function() {
+    const xterm = this.el.components['xterm']
+    window.term = xterm
+    xterm.clear()
+    const socket = new WebSocket('ws://192.168.2.102:8080/')
+    socket.onmessage = ({data}) => {
+      xterm.write(data)
+    }
+    socket.onclose = () => {
+      xterm.write('\r\nno connection.\r\n')
+    }
+    this.el.addEventListener('xterm-data', ({detail}) => {
+      socket.send(detail)
+    })
+    function handleKey(k) {
+      console.log(k)
+      if (k === 'Shift') return ''
+      if (k === 'Backspace') return '\b'
+      else if (k === 'Enter') return '\n'
+      else if (k === 'Control') {
+        window.ctrlCmode = true
+        window.setTimeout(()=>{
+          window.ctrlCmode = false
+        }, 999)
+        return ''
+      } else if (k === 'c') {
+        if (window.ctrlCmode) {
+          return '\b'.repeat(999)
+        }
+        else return k
+      }
+      else return k
+    }
+    window.setTimeout(()=>{
+      socket.send('clear\n')
+    }, 900)
+
+    document.addEventListener('keydown', function(event) {
+      socket.send(handleKey(event.key))
+    })
+  }
+})
+
+AFRAME.registerComponent('preset-switcher', {
+        init: function () {
+          var el = this.el
+          var presets = ['forest', 'default', 'contact', 'egypt', 'checkerboard', 'goaland', 'yavapai', 'goldmine', 'threetowers', 'poison', 'arches', 'tron', 'japan', 'dream', 'volcano', 'starry', 'osiris']
+          var preset = 0
+          window.addEventListener('keydown', function (evt) {
+            if (evt.key === 'Control') {
+              window.changeEnvMode = true
+              window.setTimeout(()=>{
+                window.changeEnvMode = false
+              }, 999)
+            } else if (evt.key === 'e') {
+              if (window.changeEnvMode) {
+                nextPreset(1)
+              } else return evt.key
+            }
+          })
+          function nextPreset(dir) {
+            if ((preset === 0) && (dir === -1)) {
+              preset = presets.length - 1
+            }
+            else {
+              preset = (preset + dir) % presets.length
+            }
+            el.setAttribute('environment', {preset: presets[preset]})
+          }
+        }
+      })
+
+</script>
+<a-scene>
+  </head>
+  <body>
+    <!-- <a-scene keyboard-shortcuts="enterVR: false"> -->
+    <a-scene>
+      <a-entity environment preset-switcher></a-entity>
+      <!-- <a-camera wasd-controls-enabled="false"></a-camera> -->
+      <a-sky color="#ECECEC"></a-sky>
+      <!-- <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="pink"></a-plane> -->
+     <a-curvedimage
+        id="terminalScreen"
+        class="terminal"
+        terminal
+        theta-length="60"
+        radius="6"
+        height="4"
+        rotation="0 150 0"
+        position="0 1 1.5"
+       ></a-curvedimage>
+    </a-scene>
+    <noscript>Please turn on Javascript</noscript>
+  </body>
+</html>
