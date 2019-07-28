@@ -5,6 +5,8 @@
 
 [developer work space in immersive virtual reality](https://docs.google.com/document/d/1vtMmGNmNE933sKq1ePe0wcpHWbFTvI9m9ISGGGPY3WQ)
 
+notice: this is a proof of concept
+
 ## dev setup
 
 `git clone https://github.com/elhenro/virtual-workspace`
