@@ -10,7 +10,7 @@
   "author": "elhenro",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.0",
+    "express": "^4.17.3",
     "express-ws": "^4.0.0",
     "xterm": "^3.12.0"
   },
